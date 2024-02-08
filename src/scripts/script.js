@@ -90,13 +90,14 @@ const game = (() => {
         resetBackground();
         scoreC = 0; scoreP = 0;
         score.textContent = " ";
+        resetHidden();
         changeFields(true);
     };
 
     const continueScore = () => {
         resetBackground();
-        changeFields(true);
         resetHidden();
+        changeFields(true);
     };
 
     const increaseScore = (player) => {
