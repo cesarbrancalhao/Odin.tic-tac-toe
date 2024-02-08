@@ -25,21 +25,54 @@ const game = (() => {
 
     const cpuSelectField = () => {
         let found = false;
-        let checkedFields = [];
-        while (checkedFields.length < 9){
-            cpuField = Math.floor(Math.random() * 9);
-            if (fields[cpuField].textContent === " "){
-                fields[cpuField].textContent = "O";
-                found = true;
-                break;
+        for (let i =  0; i < fields.length; i++) {
+            if (fields[i].textContent === " ") {
+                fields[i].textContent = "O";
+                if (cpuCheckWin()) {
+                    return;
+                } else {
+                    fields[i].textContent = " ";
+                }
             }
-
-            if (!checkedFields.includes(cpuField))
-                checkedFields = checkedFields.concat(cpuField);
         }
+
+        for (let i =  0; i < fields.length; i++) {
+            if (fields[i].textContent === " ") {
+                fields[i].textContent = "X";
+                if (cpuCheckWin()) {
+                    fields[i].textContent = "O";
+                    return;
+                } else {
+                    fields[i].textContent = " ";
+                }
+            }
+        }
+    
+        const tieBreak = ['4', '0', '2', '6', '8', '1', '3', '5', '7'];
+        for (let i =  0; i < tieBreak.length; i++) {
+            const fieldIndex = parseInt(tieBreak[i],  10);
+            if (fields[fieldIndex].textContent === " ") {
+                fields[fieldIndex].textContent = "O";
+                found = true;
+                return;
+            }
+        }
+
         if (!found)
             setDraw();
-    }
+    };
+
+    const cpuCheckWin = () => {
+        for (let comb of winningValues) {
+            const [a, b, c] = comb;
+            if (fields[a].textContent !== " " && 
+                fields[a].textContent === fields[b].textContent &&
+                fields[a].textContent === fields[c].textContent){
+                return true;
+            }
+        }
+        return false;
+    };
 
     const checkForWin = () => {
         for (let comb of winningValues) {
@@ -75,8 +108,9 @@ const game = (() => {
     };
 
     const setDraw = () => {
-        document.querySelector('#continue').textContent = "Continue";
+        document.querySelector('.body').classList.remove('bg-gray-200');
         document.querySelector('.body').classList.add('bg-blue-300');
+        document.querySelector('#continue').textContent = "Continue";
         document.querySelector('#winner').textContent = 'DRAW!';
     };
 
