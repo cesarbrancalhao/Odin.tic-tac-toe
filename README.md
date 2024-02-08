@@ -1,6 +1,6 @@
 # TicTacToe
 
-Tic Tac Toe app made with Tailwind and React.
+App made with Tailwind and React.
 
 Check it [Live]() (WIP).
 
